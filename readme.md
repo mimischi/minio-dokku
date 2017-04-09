@@ -1,4 +1,4 @@
-# Run Minio on Dock
+# Run Minio on Dokku
 [![Minio Version](https://img.shields.io/badge/Minio-v2017--03--16T21%3A50%3A32Z-blue.svg)]()  [![Dokku Version](https://img.shields.io/badge/Dokku-v0.9.2-blue.svg)]()  [![Docker Automated buil](https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg)]()
 
 ## What is Minio
