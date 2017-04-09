@@ -1,4 +1,5 @@
 # Run Minio on Dokku
+[![Docker Automated buil](https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg)]()
 
 ## What is Minio
 Minio is an object storage server, and API compatible with Amazon S3 cloud storage service.
@@ -8,28 +9,10 @@ Read more at the [minio.io](https://www.minio.io/) website.
 The smallest PaaS implementation you've ever seen - _Docker powered mini-Heroku_
 Read more at the [Dokku](http://dokku.viewdocs.io/dokku/) website
 
-## Minio-Dokku image info
-minio-dokku uses the `alpine:3.3` docker image, with the following added to it:
-- **dokku user:** `adduser dokku`
-- **curl:** `apk add --update curl`
-- **minio 32-bit Intel:** `curl` [https://dl.minio.io/server/minio/release/linux-386/minio](https://dl.minio.io/server/minio/release/linux-386/minio) ` > /home/dokku/minio`
-- **storage directory:** `mkdir /home/dokku/storage`
-
-```
-Alpine Linux
-  |--/usr
-  |--/other linux files
-  |--/home
-       |- dokku
-           |--minio
-           |--storage
-```
----
-
 ## How to Setup
 
 ### Requirements
-- A working Dokku host - [(Installation Instructions)](http://dokku.viewdocs.io/dokku/installation/)
+* A working Dokku host - [(Installation Instructions)](http://dokku.viewdocs.io/dokku/getting-started/installation/)
 
 ### Create the app
 Log onto your Dokku Host to create the minio app
@@ -38,41 +21,31 @@ dokku apps:create minio
 ```
 
 ### Set Environment Variables
-minio uses an **access key** and **secret key** for login, and object management. You can set custom keys with _[Environment Variables](https://github.com/dokku/dokku/blob/master/docs/configuration-management.md)_. if keys aren't set, minio server will generate them. 
+minio uses an **access key** and **secret key** for login, and object management. You can set custom keys with /[Environment Variables](http://dokku.viewdocs.io/dokku/configuration/environment-variables/)/. if keys aren't set, minio server will generate them.
 ```
 dokku config:set minio MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
 dokku config:set minio MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/EXAMPLEKEY
 ```
 **Note:** you can find the minio generated keys by checking app logs, with: `dokku logs minio`
 
-### Create your Dockerfile
-from your local machine create your app folder and `Dockerfile`
+### Download Dockerfile
+from your local machine clone this repo
 ```
-mkdir minio && cd minio
-touch Dockerfile
-```
-Add the following in your Dockerfile:
-```
-FROM slypix/minio-dokku:1.0
-EXPOSE 9000
-USER dokku
-WORKDIR /home/dokku/
-CMD ./minio server storage
+git clone https://github.com/slypix/minio-dokku.git
+cd minio-dokku
 ```
 
 ### Add Dokku remote, and Deploy
 ```
-git add Dockerfile
-git commit -m "Dockerfile config for minio server"
-git remote add dokku dokku@youdokkuhost.com:minio
+git remote add dokku dokku@<your-dokku-host.com>:minio
 git push dokku master
 ```
 
 ### Add Persistent/External Storage
-Currently minio uses docker image directory `\home\dokku\storage`, we can map a host directory to `\home\dokku\storage` with [Dokku Core Storage Plugin](https://github.com/dokku/dokku/blob/master/docs/dokku-storage.md)
+minio will use docker’s container (non-persistent) directory `\home\dokku\data`,  if you need to (stop_rebuild_restart) the app you will loose all data from that directory. So we can map a host directory to `\home\dokku\data` with [Dokku Storage](http://dokku.viewdocs.io/dokku/advanced-usage/persistent-storage/) to make it persistent. 
 
 you can use an existing directory or create a new one
-_make sure you change to dokku user before you create a new directory_
+_make sure you switch to dokku user before you create a new directory_
 ```
 su dokku
 mkdir /home/dokku/minio/data
