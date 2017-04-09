@@ -1,5 +1,5 @@
-FROM slypix/minio-dokku:1.0
+FROM minio/minio:latest
 EXPOSE 9000
 USER dokku
 WORKDIR /home/dokku/
-CMD ./minio server storage
+CMD server storage
