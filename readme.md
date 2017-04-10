@@ -44,16 +44,19 @@ git push dokku master
 ```
 
 ### Add Persistent/External Storage
-minio will use docker’s container (non-persistent) directory `\home\dokku\data`,  if you need to (stop_rebuild_restart) the app you will loose all data from that directory. So we can map a host directory to `\home\dokku\data` with [Dokku Storage](http://dokku.viewdocs.io/dokku/advanced-usage/persistent-storage/) to make it persistent. 
+minio will use docker’s container (non-persistent) directory `/home/dokku/data`,  if you need to (stop_rebuild_restart) the app, you will loose all data from that directory. So we can map a host directory to `/var/lib/dokku/data/storage/minio` with [Dokku Storage](http://dokku.viewdocs.io/dokku/advanced-usage/persistent-storage/) to make it persistent. 
 
-you can use an existing directory or create a new one
-_make sure you switch to dokku user before you create a new directory_
 ```
-su dokku
-mkdir /home/dokku/minio/data
-```
-Mount directory and restart app:
-```
-dokku storage:mount minio /home/dokku/minio/data:/home/dokku/data
+# creating storage for the app 'minio'
+mkdir -p  /var/lib/dokku/data/storage/minio
+
+# set permissions for storage directory
+chown -R dokku:dokku /var/lib/dokku/data/storage/minio
+chmod 667 /var/lib/dokku/data/storage/minio
+
+# mount the directory into your container's /app/storage directory, relative to root
+dokku storage:mount minio /var/lib/dokku/data/storage/minio:/home/dokku/data
+
+# restart minio app
 dokku ps:restart minio
 ```
