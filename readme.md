@@ -1,6 +1,9 @@
-# Run Minio on Dokku
+# 
+![](readme/header.png)
+- - - -
 [![Minio Version](https://img.shields.io/badge/Minio-v2017--03--16T21%3A50%3A32Z-blue.svg)]()  [![Dokku Version](https://img.shields.io/badge/Dokku-v0.9.2-blue.svg)]()  [![Docker Automated buil](https://img.shields.io/docker/automated/jrottenberg/ffmpeg.svg)]()
 
+# Run Minio on Dokku
 ## What is Minio
 Minio is an object storage server, and API compatible with Amazon S3 cloud storage service.
 Read more at the [minio.io](https://www.minio.io/) website.
@@ -52,6 +55,6 @@ mkdir /home/dokku/minio/data
 ```
 Mount directory and restart app:
 ```
-dokku storage:mount minio /home/dokku/minio/data:/home/dokku/storage
+dokku storage:mount minio /home/dokku/minio/data:/home/dokku/data
 dokku ps:restart minio
 ```
