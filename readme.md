@@ -22,6 +22,16 @@ Log onto your Dokku Host to create the minio app
 dokku apps:create minio
 ```
 
+### Configure vhost port mapping
+
+By default, [dokku will bind to dokku host's `9000` port](http://dokku.viewdocs.io/dokku/advanced-usage/proxy-management/#proxy-port-mapping). If you want to avoid it and use specific port to bind, run `dokku proxy:ports-add` command **before** you do first `git push`.
+
+For example, following command will map to `80` port and will avoid creating `http:9000:9000` port mapping.
+
+```bash
+dokku proxy:ports-add minio http:80:9000
+```
+
 ### Set Environment Variables
 minio uses an **access key** and **secret key** for login, and object management. You can set custom keys with /[Environment Variables](http://dokku.viewdocs.io/dokku/configuration/environment-variables/)/. if keys aren't set, minio server will generate them.
 ```
