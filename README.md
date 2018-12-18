@@ -4,8 +4,6 @@
 
 # Run Minio on Dokku
 
-## Perquisites
-
 ### What is Minio?
 
 Minio is an object storage server, and API compatible with Amazon S3 cloud
