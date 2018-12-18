@@ -7,5 +7,8 @@ USER dokku
 # Create data directory for the user, where we will keep the data
 RUN mkdir -p /home/dokku/data
 
+# Minio uses TCP Port 9000
+EXPOSE 9000/tcp
+
 # Run the server and point to the created directory
 CMD ["server", "/home/dokku/data"]
