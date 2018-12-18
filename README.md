@@ -61,9 +61,11 @@ Dokku to mount it to the app container.
 
 ```bash
 sudo mkdir -p /var/lib/dokku/data/storage/minio
-sudo chown 32769:32769 /var/lib/dokku/data/storage/minio
+sudo chown 32767:32767 /var/lib/dokku/data/storage/minio
 dokku storage:mount minio /var/lib/dokku/data/storage/minio:/home/dokku/data
 ```
+
+More information on Persistent Storage in Dokku is available on the [Dokku documentation](http://dokku.viewdocs.io/dokku/advanced-usage/persistent-storage/)
 
 ## Domain setup
 
