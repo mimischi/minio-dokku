@@ -62,7 +62,7 @@ Dokku to mount it to the app container.
 ```bash
 sudo mkdir -p /var/lib/dokku/data/storage/minio
 sudo chown 32769:32769 /var/lib/dokku/data/storage/minio
-dokku storage:mount minio /var/lib/dokku/data/storage/minio:/home/dokku/data
+dokku storage:mount minio /var/lib/dokku/data/storage/minio:/home/dokku
 ```
 
 ## Domain setup
@@ -127,6 +127,17 @@ Now we can push Minio to Dokku (_before_ moving on to the [next part](#domain-an
 ```bash
 git push dokku master
 ```
+
+## Run mc commands
+
+Minio client is also installed. To run a `mc` command, first enter the container and then run the command:
+
+```bash
+dokku enter minio
+$ mc --help
+```
+
+Minio client config directory is mounted at `/var/lib/dokku/data/storage/minio/.mc`.
 
 ## SSL certificate
 
