@@ -140,4 +140,4 @@ dokku letsencrypt minio
 
 ## Wrapping up
 
-Your Minio instance should now be available on `[https://minio.example.com](https://minio.example.com)`.
+Your Minio instance should now be available on [`https://minio.example.com`](https://minio.example.com).
