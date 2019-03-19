@@ -58,9 +58,11 @@ machine, add write permissions to the user defined in `Dockerfile` and tell
 Dokku to mount it to the app container.
 
 ```bash
-sudo mkdir -p /var/lib/dokku/data/storage/minio
-sudo chown 32767:32767 /var/lib/dokku/data/storage/minio
-dokku storage:mount minio /var/lib/dokku/data/storage/minio:/home/dokku/data
+sudo mkdir -p /var/lib/dokku/data/storage/minio/data
+sudo mkdir -p /var/lib/dokku/data/storage/minio/config
+sudo chown -R 32767:32767 /var/lib/dokku/data/storage/minio
+dokku storage:mount minio /var/lib/dokku/data/storage/minio/data:/home/dokku/data
+dokku storage:mount minio /var/lib/dokku/data/storage/minio/config:/home/dokku/.minio
 ```
 
 More information on Persistent Storage in Dokku is available on the [Dokku documentation](http://dokku.viewdocs.io/dokku/advanced-usage/persistent-storage/)
