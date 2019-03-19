@@ -90,6 +90,12 @@ First add the correct port mapping for this project as defined in the parent
 dokku proxy:ports-add minio http:80:9000
 ```
 
+If you also need SSL support:
+
+```bash
+dokku proxy:ports-add minio https:443:9000
+```
+
 Next remove the proxy mapping added by Dokku.
 
 ```bash
