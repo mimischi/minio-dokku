@@ -54,13 +54,16 @@ in on your host running dokku via `dokku config minio`.
 > startup and output them to the log (check if via `dokku logs minio`). You
 > will still need to set them manually.
 
-You'll also need to set `NGINX_MAX_REQUEST_BODY` - this variable is used in the
-custom `nginx.conf` for this Dokku app to allow uploads up to 15MB to the HTTP
-server (if the file size is greater than 15MB, `s3cmd` will split in 15MB
-parts). To set the variable, execute the following command:
+You'll also need to set other two environment variables:
+
+- `NGINX_MAX_REQUEST_BODY`: used in the custom `nginx.conf` for this Dokku app
+  to allow uploads up to 15MB to the HTTP server (if the file size is greater
+  than 15MB, `s3cmd` will split in 15MB parts).
+- `MINIO_DOMAIN`: used to tell minio the domain name being used by the server.
 
 ```bash
 dokku config:set --no-restart minio NGINX_MAX_REQUEST_BODY=15M
+dokku config:set --no-restart minio MINIO_DOMAIN=minio.example.com
 ```
 
 > **Note**: if you're using [s4cmd](https://github.com/bloomreach/s4cmd/)
@@ -137,7 +140,8 @@ git remote add dokku dokku@example.com:minio
 
 ### Push Minio
 
-Now we can push Minio to Dokku (_before_ moving on to the [next part](#domain-and-ssl-certificate)).
+Now we can push Minio to Dokku (_before_ moving on to the [next
+part](#domain-and-ssl-certificate)).
 
 ```bash
 git push dokku master
@@ -151,8 +155,13 @@ Encrypt](https://letsencrypt.org/).
 ```bash
 dokku config:set --no-restart minio DOKKU_LETSENCRYPT_EMAIL=you@example.com
 dokku letsencrypt minio
+dokku proxy:ports-set minio https:443:9000
 ```
+
+> **Note**: you must execute these steps *after* pushing the app to Dokku
+> host.
 
 ## Wrapping up
 
-Your Minio instance should now be available on [`https://minio.example.com`](https://minio.example.com).
+Your Minio instance should now be available on
+[minio.example.com](https://minio.example.com).
