@@ -17,14 +17,16 @@ storage service. Read more at the [minio.io](https://www.minio.io/) website.
 you've ever seen - _Docker powered mini-Heroku_.
 
 ### Requirements
+
 * A working [Dokku host](http://dokku.viewdocs.io/dokku/getting-started/installation/)
 
 # Setup
 
-**Note:** We are going to use the domain `minio.example.com` for demonstration
-purposes. Make sure to replace it to your domain name.
+We are going to use the domain `minio.example.com` and dokku app `minio` for
+demonstration purposes. Make sure to replace it.
 
 ## Create the app
+
 Log onto your Dokku Host to create the Minio app:
 
 ```bash
@@ -33,24 +35,37 @@ dokku apps:create minio
 
 ## Configuration
 
-### Setting access keys
+### Setting environment variables
 
 Minio uses two access keys (`ACCESS_KEY` and `SECRET_KEY`) for authentication
 and object management. The following commands sets a random strings for each
 access key.
 
 ```bash
-dokku config:set minio MINIO_ACCESS_KEY=$(echo `openssl rand -base64 45` | tr -d \=+ | cut -c 1-20)
-dokku config:set minio MINIO_SECRET_KEY=$(echo `openssl rand -base64 45` | tr -d \=+ | cut -c 1-32)
+dokku config:set --no-restart minio MINIO_ACCESS_KEY=$(echo `openssl rand -base64 45` | tr -d \=+ | cut -c 1-20)
+dokku config:set --no-restart minio MINIO_SECRET_KEY=$(echo `openssl rand -base64 45` | tr -d \=+ | cut -c 1-32)
 ```
 
 To login in the browser or via API, you will need to supply both the
 `ACCESS_KEY` and `SECRET_KEY`. You can retrieve these at any time while logged
 in on your host running dokku via `dokku config minio`.
 
-**Note:** If you do not set these keys, Minio will generate them during startup
-and output them to the log (check if via `dokku logs minio`). You will still
-need to set them manually.
+> **Note:** if you do not set these keys, Minio will generate them during
+> startup and output them to the log (check if via `dokku logs minio`). You
+> will still need to set them manually.
+
+You'll also need to set `NGINX_MAX_REQUEST_BODY` - this variable is used in the
+custom `nginx.conf` for this Dokku app to allow uploads up to 15MB to the HTTP
+server (if the file size is greater than 15MB, `s3cmd` will split in 15MB
+parts). To set the variable, execute the following command:
+
+```bash
+dokku config:set --no-restart minio NGINX_MAX_REQUEST_BODY=15M
+```
+
+> **Note**: if you're using [s4cmd](https://github.com/bloomreach/s4cmd/)
+> instead, be sure to pass the following parameters:
+> `--multipart-split-size=15728640 --max-singlepart-upload-size=15728640`.
 
 
 ## Persistent storage
