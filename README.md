@@ -22,7 +22,7 @@ you've ever seen - _Docker powered mini-Heroku_.
 
 # Setup
 
-We are going to use the domain `minio.example.com` and dokku app `minio` for
+We are going to use the domain `minio.example.com` and Dokku app `minio` for
 demonstration purposes. Make sure to replace it.
 
 ## Create the app
@@ -59,7 +59,7 @@ You'll also need to set other two environment variables:
 - `NGINX_MAX_REQUEST_BODY`: used in the custom `nginx.conf` for this Dokku app
   to allow uploads up to 15MB to the HTTP server (if the file size is greater
   than 15MB, `s3cmd` will split in 15MB parts).
-- `MINIO_DOMAIN`: used to tell minio the domain name being used by the server.
+- `MINIO_DOMAIN`: used to tell Minio the domain name being used by the server.
 
 ```bash
 dokku config:set --no-restart minio NGINX_MAX_REQUEST_BODY=15M
