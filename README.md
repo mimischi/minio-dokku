@@ -144,7 +144,7 @@ Now we can push Minio to Dokku (_before_ moving on to the [next
 part](#domain-and-ssl-certificate)).
 
 ```bash
-git push dokku master
+git push dokku main
 ```
 
 ## SSL certificate
@@ -154,8 +154,7 @@ Encrypt](https://letsencrypt.org/).
 
 ```bash
 dokku config:set --no-restart minio DOKKU_LETSENCRYPT_EMAIL=you@example.com
-dokku letsencrypt minio
-dokku proxy:ports-set minio https:443:9000
+dokku letsencrypt:enable minio
 ```
 
 > **Note**: you must execute these steps *after* pushing the app to Dokku
