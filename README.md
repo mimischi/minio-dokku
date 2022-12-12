@@ -151,10 +151,17 @@ git push dokku master
 
 Last but not least, we can go an grab the SSL certificate from [Let's
 Encrypt](https://letsencrypt.org/).
+You'll need [dokku-letsencrypt plugin](https://github.com/dokku/dokku-letsencrypt) installed. If it's not, install by running:
+
+```bash
+dokku plugin:install https://github.com/dokku/dokku-letsencrypt.git
+```
+
+Now get the SSL certificate:
 
 ```bash
 dokku config:set --no-restart minio DOKKU_LETSENCRYPT_EMAIL=you@example.com
-dokku letsencrypt minio
+dokku letsencrypt:enable minio
 dokku proxy:ports-set minio https:443:9000
 ```
 
