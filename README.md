@@ -104,6 +104,8 @@ First add the correct port mapping for this project as defined in the parent
 
 ```bash
 dokku proxy:ports-add minio http:80:9000
+dokku proxy:ports-add minio https:443:9000
+dokku proxy:ports-add minio https:9001:9001
 ```
 
 Next remove the proxy mapping added by Dokku.
